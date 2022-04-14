@@ -8,9 +8,6 @@ class TypeSpeedTrainer():
         self.file_name = f"txt/written_text.txt"
         self.articles = articles[0]
 
-    def start(self):
-        pass
-
     def restart(self):
         self.clear_written_text()
 
@@ -18,6 +15,7 @@ class TypeSpeedTrainer():
         return sum(a[i] != b[i] for i in range(len(a)))
 
     def compare_to_input(self):
+        """ Compares the written text to .txt to the chosen quote """
         string, string_count = self.read_written_txt()
         compare_string_article = articles[:string_count]
         errors = self.diff_letters(string, compare_string_article)
@@ -28,14 +26,13 @@ class TypeSpeedTrainer():
         else:
             return False, errors, string_count
 
-    def show_score(self):
-        pass
-
     def written_text_to_csv(self, text):
+        """ Writes the input text to a .txt file """
         with open(self.file_name, "a") as written_text:
             written_text.write(text)
 
     def read_written_txt(self):
+        """ Reads the  text from a .txt file """
         with open(self.file_name, "r") as written_text:
             text = written_text.read()
             # print(text)
@@ -44,6 +41,7 @@ class TypeSpeedTrainer():
         return text, written_text_count
 
     def clear_written_text(self):
+        """ Clears the .txt file """
         with open(self.file_name, "r+") as written_text:
             written_text.truncate()
 

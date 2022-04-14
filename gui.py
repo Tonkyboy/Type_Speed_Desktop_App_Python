@@ -1,3 +1,4 @@
+import random
 from tkinter import *
 from tkinter import ttk
 from typing_classes import TypeSpeedTrainer
@@ -24,6 +25,8 @@ root.config(padx=50, pady=50)
 
 root.resizable(True, True)
 
+# ToDo:
+# Choose random article for training
 
 def print_entry_text(a, b, c):
     """Handles the Text input to fill up to 25 char and the delete the first to see always 25 chars - also writtes
@@ -58,6 +61,7 @@ def start_timer():
                                         f"with {errors_messagebox} errors.")
 
 def restart():
+    """Restarts the Typing Test. Reset Timer, Clears .txt., clears entry, resets the shown text in text widget"""
     tst.restart()
     global timer
     timer = TIMER
@@ -66,6 +70,7 @@ def restart():
     start()
 
 def run_text_operation():
+    """ Handles the quote shown in the text widget. Depending on entered characters in the entry widget """
     global quote
     written_text_count = tst.read_written_txt()[1]
     # print(written_text_count)
@@ -80,6 +85,12 @@ def run_text_operation():
     root.after(250, run_text_operation)
 
 def compare():
+    """ Compares the input in entry widget with the quote text in the text widget.
+    Marks the entry text red if there is an error it the input.
+    compared: True/ False
+    errors: int
+    string_count: int
+    """
     compared, errors, string_count = tst.compare_to_input()
     if not compared:
         input_text.config(foreground="red")
@@ -94,7 +105,13 @@ def compare():
     root.after(250, compare)
 
 def start():
+    """
+    Starts the full typing test mechanism
+    Gets random Quote. Starts the timer. Clears the .txt. runs the text_operation. Start the comparison
+    """
     # load inital article
+    random_article = random.randint(0, 3)
+    print(random_article)
     global quote
     quote = articles[0]
 
@@ -110,26 +127,30 @@ def start():
     compare()
 
 
-
+# Frame
 frm = ttk.Frame(root, width=80, height=80, padding=15)
 frm.grid(column=1, row=1)
 
+# Start und Restart button
 ttk.Button(frm, text="Start", command=start).grid(column=1, row=1)
 ttk.Button(frm, text="Restart", command=restart).grid(column=2, row=1)
 
+# Score Label
 score_label = ttk.Label(frm, text="0 strokes/min", width=25, font=("Courier", 25))
 score_label.grid(column=1, row=2, columnspan=1, padx=25, pady=10)
 
+# Error Label
 errors_label = ttk.Label(frm, text="0 errors", width=25, font=("Courier", 25))
 errors_label.grid(column=1, row=3, columnspan=1, padx=25, pady=10)
 
+# Timer Label
 timer_label = ttk.Label(frm, text=f"{timer} sec", width=10, font=("Courier", 25))
 timer_label.grid(column=2, row=2, columnspan=1, padx=25, pady=25)
 
+# Text Widget for Quotes
 text = Text(frm, height=3, width=50, font=("Courier", 35))
 text.grid(column=1, row=4, columnspan=2, padx=25, pady=25)
 text.insert(END, quote)
-# text.config(state=DISABLED)
 
 # Full Text Entry Widget
 entry_text = StringVar()
@@ -141,6 +162,7 @@ input_text.grid(column=1, row=5, columnspan=2, padx=25, pady=25)
 entry_text.trace("w", print_entry_text)
 input_text.bind("<BackSpace>", text_correction)
 
+# Quit Button
 ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=6, columnspan=2)
 
 root.mainloop()
