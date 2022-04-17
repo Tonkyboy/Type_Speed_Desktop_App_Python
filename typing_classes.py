@@ -1,12 +1,12 @@
 from time import sleep
-from articles import articles
+# from articles import articles
 
-articles = articles[0]
+# articles = articles[0]
 
 class TypeSpeedTrainer():
     def __init__(self):
         self.file_name = f"txt/written_text.txt"
-        self.articles = articles[0]
+        # self.articles = articles[0]
 
     def restart(self):
         self.clear_written_text()
@@ -14,9 +14,10 @@ class TypeSpeedTrainer():
     def diff_letters(self, a, b):
         return sum(a[i] != b[i] for i in range(len(a)))
 
-    def compare_to_input(self):
+    def compare_to_input(self, articles):
         """ Compares the written text to .txt to the chosen quote """
         string, string_count = self.read_written_txt()
+        # compare_string_article = articles[:string_count]
         compare_string_article = articles[:string_count]
         errors = self.diff_letters(string, compare_string_article)
         # print(f"Error letters: {errors}")

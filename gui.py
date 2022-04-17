@@ -8,7 +8,7 @@ from articles import articles
 
 quote = "Start the Game. :)"
 
-TIMER = 50
+TIMER = 10
 
 strokes_messagebox = 0
 errors_messagebox = 0
@@ -26,7 +26,7 @@ root.config(padx=50, pady=50)
 root.resizable(True, True)
 
 # ToDo:
-# Choose random article for training
+# Make a History, a Ranking and a variable Timer
 
 def print_entry_text(a, b, c):
     """Handles the Text input to fill up to 25 char and the delete the first to see always 25 chars - also writtes
@@ -62,11 +62,11 @@ def start_timer():
 
 def restart():
     """Restarts the Typing Test. Reset Timer, Clears .txt., clears entry, resets the shown text in text widget"""
+    print("Restart")
     tst.restart()
     global timer
-    timer = TIMER
+    timer = 0
     entry_text.set("")
-    run_text_operation()
     start()
 
 def run_text_operation():
@@ -91,7 +91,7 @@ def compare():
     errors: int
     string_count: int
     """
-    compared, errors, string_count = tst.compare_to_input()
+    compared, errors, string_count = tst.compare_to_input(quote)
     if not compared:
         input_text.config(foreground="red")
     if compared:
@@ -111,9 +111,10 @@ def start():
     """
     # load inital article
     random_article = random.randint(0, 3)
-    print(random_article)
+    # print(random_article)
     global quote
-    quote = articles[0]
+    # quote = articles[0]
+    quote = articles[random_article]
 
     global timer
     timer = TIMER
@@ -127,12 +128,13 @@ def start():
     compare()
 
 
+
 # Frame
 frm = ttk.Frame(root, width=80, height=80, padding=15)
 frm.grid(column=1, row=1)
 
 # Start und Restart button
-ttk.Button(frm, text="Start", command=start).grid(column=1, row=1)
+start_button = ttk.Button(frm, text="Start", command=start).grid(column=1, row=1)
 ttk.Button(frm, text="Restart", command=restart).grid(column=2, row=1)
 
 # Score Label
