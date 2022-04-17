@@ -8,7 +8,7 @@ from articles import articles
 
 quote = "Start the Game. :)"
 
-TIMER = 10
+TIMER = 60
 
 strokes_messagebox = 0
 errors_messagebox = 0
@@ -57,7 +57,7 @@ def start_timer():
         root.after(1000, start_timer)
         # print(timer)
     elif timer == 0:
-        messagebox.showinfo("Finished", f"Time is out! \n You scored {strokes_messagebox} strokes in {timer} sec\n "
+        messagebox.showinfo("Finished", f"Time is out! \n You scored {strokes_messagebox} strokes in {TIMER} sec\n "
                                         f"with {errors_messagebox} errors.")
 
 def restart():
